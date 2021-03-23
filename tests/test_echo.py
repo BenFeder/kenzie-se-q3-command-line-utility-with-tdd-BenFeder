@@ -99,7 +99,7 @@ class TestEcho(unittest.TestCase):
 
     def test_lower_long(self):
         """Check if long option '--lower' performs lowercasing"""
-        args = ["-l", "HELLO WORLD"]
+        args = ["--lower", "HELLO WORLD"]
         output = run_capture(self.module.__file__, args)
         self.assertEqual(output[0], "hello world")
 
@@ -129,15 +129,19 @@ class TestEcho(unittest.TestCase):
 
     def test_multiple_options(self):
         """Check if options get performed in order"""
-        args = ["-lut", "hello world"]
+        args = ["-ult", "hello world"]
         output = run_capture(self.module.__file__, args)
         self.assertEqual(output[0], "Hello World")
 
     def test_help_message(self):
         """Check if help message returns"""
+        help_message = ""
+        with open("USAGE", "r") as help_file:
+            for line in help_file:
+                help_message += line.read()
         args = ["--help", "hello world"]
         output = run_capture(self.module.__file__, args)
-        self.assertEqual(output[0], "hello world")
+        self.assertEqual(output[0], help_message)
 
     #
     # Students: add a flake8 test here.
