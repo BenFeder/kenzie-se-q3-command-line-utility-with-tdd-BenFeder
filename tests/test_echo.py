@@ -133,29 +133,22 @@ class TestEcho(unittest.TestCase):
         output = run_capture(self.module.__file__, args)
         self.assertEqual(output[0], "Hello World")
 
+# FIX THE TEST_HELP_MESSAGE FUNCTION!!!
     def test_help_message(self):
         """Check if help message returns"""
         help_message = ""
-        with open("USAGE", "r") as help_file:
+        with open("../USAGE", "r") as help_file:
             for line in help_file:
                 help_message += line.read()
         args = ["--help", "hello world"]
         output = run_capture(self.module.__file__, args)
         self.assertEqual(output[0], help_message)
 
-    #
-    # Students: add a flake8 test here.
-    # You may borrow some test code from previous assignments!
-    #
     def test_flake8(self):
         """Checking for PEP8/flake8 compliance"""
         result = subprocess.run(['flake8', self.module.__file__])
         self.assertEqual(result.returncode, 0)
 
-    #
-    # Students: add an __author__ test here.
-    # You may borrow some test code from previous assignments!
-    #
     def test_author(self):
         """Checking for author string"""
         self.assertIsNotNone(self.module.__author__)

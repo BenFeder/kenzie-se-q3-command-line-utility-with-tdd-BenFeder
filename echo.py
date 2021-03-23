@@ -28,11 +28,11 @@ def main(args):
     ns = parser.parse_args(args)
     if ns.upper:
         text_to_print = ns.text.upper()
-    elif ns.lower:
+    if ns.lower:
         text_to_print = ns.text.lower()
-    elif ns.title:
+    if ns.title:
         text_to_print = ns.text.title()
-    elif ns.text:
+    if not ns.upper and not ns.lower and not ns.title:
         text_to_print = ns.text
     print(text_to_print)
 
