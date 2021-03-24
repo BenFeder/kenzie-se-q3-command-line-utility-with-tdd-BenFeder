@@ -135,13 +135,13 @@ class TestEcho(unittest.TestCase):
 # FIX THE TEST_HELP_MESSAGE FUNCTION!!!
     def test_help_message(self):
         """Check if help message returns"""
-        help_message = ""
-        with open("../USAGE", "r") as help_file:
+        help_message = []
+        with open("./USAGE", "r") as help_file:
             for line in help_file:
-                help_message += line.read()
-        args = ["--help", "hello world"]
+                help_message.append(line.strip("\n"))
+        args = ["-h"]
         output = run_capture(self.module.__file__, args)
-        self.assertEqual(output[0], help_message)
+        self.assertEqual(output, help_message)
 
     def test_flake8(self):
         """Checking for PEP8/flake8 compliance"""

@@ -11,14 +11,15 @@ import argparse
 
 def create_parser():
     """Returns an instance of argparse.ArgumentParser"""
-    parser = argparse.ArgumentParser(description="creating argparse for echo")
+    parser = argparse.ArgumentParser(
+        description="Perform transformation on input text.")
     parser.add_argument('-u', '--upper', action="store_true",
-                        help="converts text to uppercase")
+                        help="convert text to uppercase")
     parser.add_argument('-l', '--lower', action="store_true",
-                        help="converts text to lowercase")
+                        help="convert text to lowercase")
     parser.add_argument('-t', '--title', action="store_true",
-                        help="converts text to titlecase")
-    parser.add_argument('text', help="positional arg 'text' to convert")
+                        help="convert text to titlecase")
+    parser.add_argument('text', help="text to be manipulated")
     return parser
 
 
