@@ -69,8 +69,12 @@ class TestEcho(unittest.TestCase):
     # - If you enable one option as true, are the rest false?
     #
     def test_parser_namespace(self):
-        # your code here
-        self.fail()  # replace me
+        parser = self.module.create_parser()
+        ns = parser.parse_args(['-u', 'hello world'])
+        self.assertTrue(
+            ns.upper, "Namespace upper not recognized as true")
+        self.assertFalse(ns.lower, "Lower is in namespace")
+        self.assertFalse(ns.title, "Title is in namespace")
 
     def test_echo(self):
         """Check if main() function prints anything at all"""
@@ -91,11 +95,6 @@ class TestEcho(unittest.TestCase):
         args = ["-l", "HELLO WORLD"]
         output = run_capture(self.module.__file__, args)
         self.assertEqual(output[0], "hello world")
-
-    #
-    # Students: add more cmd line options tests below.
-    # Replace `self.fail()` with your own code
-    #
 
     def test_lower_long(self):
         """Check if long option '--lower' performs lowercasing"""
