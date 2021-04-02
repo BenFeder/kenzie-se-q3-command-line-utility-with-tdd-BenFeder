@@ -7,7 +7,7 @@ Students MUST EDIT this module, to add more tests to run
 against the 'echo.py' program.
 """
 
-__author__ = "???"
+__author__ = "Benjamin Feder"
 
 import sys
 import importlib
@@ -52,7 +52,7 @@ class TestEcho(unittest.TestCase):
         """Performs module import and suite setup at test-runtime"""
         # check for python3
         cls.assertGreaterEqual(cls, sys.version_info[0], 3)
-        # This will import the module to be tested (the student's echo.py)
+        # This will import the module to be tested
         cls.module = importlib.import_module(PKG_NAME)
 
     def test_parser(self):
@@ -69,8 +69,12 @@ class TestEcho(unittest.TestCase):
     # - If you enable one option as true, are the rest false?
     #
     def test_parser_namespace(self):
-        # your code here
-        self.fail()  # replace me
+        parser = self.module.create_parser()
+        ns = parser.parse_args(['-u', 'hello world'])
+        self.assertTrue(
+            ns.upper, "Namespace upper not recognized as true")
+        self.assertFalse(ns.lower, "Lower is in namespace")
+        self.assertFalse(ns.title, "Title is in namespace")
 
     def test_echo(self):
         """Check if main() function prints anything at all"""
@@ -84,7 +88,7 @@ class TestEcho(unittest.TestCase):
         self.assertEqual(
             output[0], args[0],
             "The program is not performing simple echo"
-            )
+        )
 
     def test_lower_short(self):
         """Check if short option '-l' performs lowercasing"""
@@ -92,54 +96,65 @@ class TestEcho(unittest.TestCase):
         output = run_capture(self.module.__file__, args)
         self.assertEqual(output[0], "hello world")
 
-    #
-    # Students: add more cmd line options tests below.
-    # Replace `self.fail()` with your own code
-    #
-
     def test_lower_long(self):
-        # your code here
-        self.fail()  # replace me
+        """Check if long option '--lower' performs lowercasing"""
+        args = ["--lower", "HELLO WORLD"]
+        output = run_capture(self.module.__file__, args)
+        self.assertEqual(output[0], "hello world")
 
     def test_upper_short(self):
-        # your code here
-        self.fail()  # replace me
+        """Check if short option '-u' performs uppercasing"""
+        args = ["-u", "Hello world"]
+        output = run_capture(self.module.__file__, args)
+        self.assertEqual(output[0], "HELLO WORLD")
 
     def test_upper_long(self):
-        # your code here
-        self.fail()  # replace me
+        """Check if long option '--upper' performs uppercasing"""
+        args = ["--upper", "Hello world"]
+        output = run_capture(self.module.__file__, args)
+        self.assertEqual(output[0], "HELLO WORLD")
 
     def test_title_short(self):
-        # your code here
-        self.fail()  # replace me
+        """Check if short option '-t' performs titlecasing"""
+        args = ["-t", "hello world"]
+        output = run_capture(self.module.__file__, args)
+        self.assertEqual(output[0], "Hello World")
 
     def test_title_long(self):
-        # your code here
-        self.fail()  # replace me
+        """Check if long option '--title' performs titlecasing"""
+        args = ["--title", "hello world"]
+        output = run_capture(self.module.__file__, args)
+        self.assertEqual(output[0], "Hello World")
 
     def test_multiple_options(self):
-        # your code here
-        self.fail()  # replace me
+        """Check if options get performed in order"""
+        args = ["-ult", "hello world"]
+        output = run_capture(self.module.__file__, args)
+        self.assertEqual(output[0], "Hello World")
 
+# FIX THE TEST_HELP_MESSAGE FUNCTION!!!
     def test_help_message(self):
-        # your code here
-        self.fail()  # replace me
+        """Check if help message returns"""
+        help_message = []
+        with open("./USAGE", "r") as help_file:
+            for line in help_file:
+                help_message.append(line.strip("\n"))
+        args = ["-h"]
+        output = run_capture(self.module.__file__, args)
+        self.assertEqual(output, help_message)
 
-    #
-    # Students: add a flake8 test here.
-    # You may borrow some test code from previous assignments!
-    #
     def test_flake8(self):
-        # your code here
-        self.fail()  # replace me
+        """Checking for PEP8/flake8 compliance"""
+        result = subprocess.run(['flake8', self.module.__file__])
+        self.assertEqual(result.returncode, 0)
 
-    #
-    # Students: add an __author__ test here.
-    # You may borrow some test code from previous assignments!
-    #
     def test_author(self):
-        # your code here
-        self.fail()  # replace me
+        """Checking for author string"""
+        self.assertIsNotNone(self.module.__author__)
+        self.assertNotEqual(
+            self.module.__author__, "???",
+            "Author string is not completed"
+        )
 
 
 if __name__ == '__main__':
